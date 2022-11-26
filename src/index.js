@@ -14,6 +14,7 @@ const startApp = () => {
     config({ path: process.ENV })
     app.listen(PORT);
     sequelize.sync();
+    console.log(`runnin on port${PORT}`);
   } catch (error) {
     console.error("Unable to connect to the database: ", error);
   }
