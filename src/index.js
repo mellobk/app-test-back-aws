@@ -1,5 +1,4 @@
 import app from "./app.js";
-import { PORT } from "./shared/constants/constants.js";
 import { sequelize } from "./database/database.js";
 import { config } from "dotenv";
 import "./models/User.js";
@@ -10,6 +9,8 @@ import "./models/Permission.js";
 import "./models/RolPermission.js";
 
 const startApp = () => {
+
+  const PORT = process.env.PORT || 80
   try {
     config({ path: process.ENV })
     app.listen(PORT);
