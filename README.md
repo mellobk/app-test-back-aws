@@ -1,4 +1,4 @@
-# Folder structure for frontend projects
+# Folder structure for backend projects
 
 This structure was created based on [this article](https://dev.to/kpiteng/react-clean-architecture-114f)
 
