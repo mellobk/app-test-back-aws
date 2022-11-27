@@ -91,6 +91,7 @@ export const getPdf = async (req, res) => {
       order: [["id", "DESC"]],
     });
 
+  console.log(`${pathDirName()}/result.pdf`)
 
     const dirName = `./src/storage/uploads/pdf/result.pdf`
     pdf.create(inventoryTemplate(data), {})
