@@ -151,8 +151,7 @@ export const sendPdf = async (req, res) => {
             }]
          
           });
-          fs.unlinkSync(dirName)
-      
+       
        
       }catch (error){
         res.send(Promise.reject());
