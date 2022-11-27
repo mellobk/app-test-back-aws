@@ -92,23 +92,15 @@ export const getPdf = async (req, res) => {
     });
 
 
-    const dirName = `${pathDirName()}/result.pdf`
-  try{
-
+    const dirName = `./src/storage/uploads/pdf/result.pdf`
     pdf.create(inventoryTemplate(data), {})
-    .toFile(dirName, (err) => {
-      if (err) {
-        res.send(Promise.reject());
-      }
-      res.sendFile(`${pathDirName()}/result.pdf`)
-   
-    });
-
-
-
-  }catch (error) {
-    res.json({ status: ERROR, code: 500, message: error.message });
-  }
+      .toFile(dirName, () => {
+        try{
+          res.sendFile(`${pathDirName()}/result.pdf`)
+        }catch (error){
+          res.send(Promise.reject());
+        }
+      });
   } catch (error) {
     res.json({ status: ERROR, code: 500, message: error.message });
   }
@@ -129,15 +121,11 @@ export const sendPdf = async (req, res) => {
     });
 
 
-    const dirName = `${pathDirName()}/result.pdf`
-   await pdf.create(inventoryTemplate(data), {})
-      .toFile(dirName, async(err) => {
-        if (err) {
-          res.send(Promise.reject());
-        }
-
+    const dirName = `./src/storage/uploads/pdf/result.pdf`
+    pdf.create(inventoryTemplate(data), {})
+    .toFile(dirName, async() => {
       try{
-
+       
         let transporter = nodemailer.createTransport({
           host:'smtp.gmail.com',
           port: 465,
@@ -164,11 +152,11 @@ export const sendPdf = async (req, res) => {
           }]
        
         });
-
-      }catch(err) {
-        res.json({ status: ERROR, code: 500, message: error.message });
-      }
         fs.unlinkSync(dirName)
+      }catch (error){
+        res.send(Promise.reject());
+      }
+
 
       });
 
