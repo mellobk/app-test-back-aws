@@ -98,6 +98,7 @@ export const getPdf = async (req, res) => {
     pdf.create(inventoryTemplate(data), {})
     .toFile(dirName, (err) => {
       if (err) {
+        console.log(err)
         res.send(Promise.reject());
       }
       res.sendFile(`${pathDirName()}/result.pdf`)
@@ -130,6 +131,7 @@ export const sendPdf = async (req, res) => {
    await pdf.create(inventoryTemplate(data), {})
       .toFile(dirName, async(err) => {
         if (err) {
+          console.log(err)
           res.send(Promise.reject());
         }
 
