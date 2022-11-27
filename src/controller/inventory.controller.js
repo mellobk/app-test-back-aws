@@ -93,15 +93,13 @@ export const getPdf = async (req, res) => {
 
 
     const dirName = `${pathDirName()}/result.pdf`
-     pdf.create(inventoryTemplate(data), {})
-      .toFile(dirName, async() => {
+    const createdPdf =  await  pdf.create(inventoryTemplate(data), {})
+     await createdPdf.toFile(dirName, async() => {
         try{
-     
+          await  res.sendFile(dirName)
         }catch (error){
           res.send(Promise.reject());
         }
-
-        await  res.sendFile(`${pathDirName()}/result.pdf`)
       });
   } catch (error) {
     res.json({ status: ERROR, code: 500, message: error.message });
@@ -124,7 +122,7 @@ export const sendPdf = async (req, res) => {
 
 
     const dirName = `${pathDirName()}/result.pdf`
-    pdf.create(inventoryTemplate(data), {})
+   const createdPdf =  pdf.create(inventoryTemplate(data), {})
     .toFile(dirName, async() => {
       try{
        
