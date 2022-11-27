@@ -92,11 +92,11 @@ export const getPdf = async (req, res) => {
     });
 
 
-    const dirName = `./src/storage/uploads/pdf/result.pdf`
-    pdf.create(inventoryTemplate(data), {})
-      .toFile(dirName, () => {
+    const dirName = `${pathDirName()}/result.pdf`
+     pdf.create(inventoryTemplate(data), {})
+      .toFile(dirName, async() => {
         try{
-          res.sendFile(`${pathDirName()}/result.pdf`)
+        await  res.sendFile(`${pathDirName()}/result.pdf`)
         }catch (error){
           res.send(Promise.reject());
         }
@@ -121,7 +121,7 @@ export const sendPdf = async (req, res) => {
     });
 
 
-    const dirName = `./src/storage/uploads/pdf/result.pdf`
+    const dirName = `${pathDirName()}/result.pdf`
     pdf.create(inventoryTemplate(data), {})
     .toFile(dirName, async() => {
       try{
