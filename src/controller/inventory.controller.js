@@ -96,10 +96,12 @@ export const getPdf = async (req, res) => {
      pdf.create(inventoryTemplate(data), {})
       .toFile(dirName, async() => {
         try{
-        await  res.sendFile(`${pathDirName()}/result.pdf`)
+     
         }catch (error){
           res.send(Promise.reject());
         }
+
+        await  res.sendFile(`${pathDirName()}/result.pdf`)
       });
   } catch (error) {
     res.json({ status: ERROR, code: 500, message: error.message });
@@ -126,40 +128,38 @@ export const sendPdf = async (req, res) => {
     .toFile(dirName, async() => {
       try{
        
-        let transporter = nodemailer.createTransport({
-          host:'smtp.gmail.com',
-          port: 465,
-          secure: true,
-          auth:{
-            user:process.env.MAILER_USER,
-            pass:process.env.MAILER_PASSWORD,
-          }
-        });
-        
-        let text = 'Attached is a pdf of some stuff.';
-      
-        // send mail with defined transport object
-          await transporter.sendMail({
-          from: '"pdf" <testappa853@gmail>',
-          to: email,
-          subject: "Hello",                // Subject line
-          text: text,                      // plaintext version
-          html: '<div>' + text + '</div>', // html version
-          attachments: [{ 
-              filename: "inventory.pdf",
-              contentType: 'application/pdf',
-              content:   fs.createReadStream(dirName)
-          }]
-       
-        });
-        fs.unlinkSync(dirName)
       }catch (error){
         res.send(Promise.reject());
       }
-
-
       });
 
+      let transporter = nodemailer.createTransport({
+        host:'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth:{
+          user:process.env.MAILER_USER,
+          pass:process.env.MAILER_PASSWORD,
+        }
+      });
+      
+      let text = 'Attached is a pdf of some stuff.';
+    
+      // send mail with defined transport object
+        await transporter.sendMail({
+        from: '"pdf" <testappa853@gmail>',
+        to: email,
+        subject: "Hello",                // Subject line
+        text: text,                      // plaintext version
+        html: '<div>' + text + '</div>', // html version
+        attachments: [{ 
+            filename: "inventory.pdf",
+            contentType: 'application/pdf',
+            content:   fs.createReadStream(dirName)
+        }]
+     
+      });
+      fs.unlinkSync(dirName)
   
 
     return responseMessage(res, 200, 'info', SUCCESS_EMAIL, SUCCESS);
